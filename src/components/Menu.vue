@@ -9,14 +9,22 @@ export default {
     return {
     }
   },
+  methods: {
+    handleClickMenu: function (name) { // on + 事件名(首字母大写)
+      console.log('click menu:', name)
+    }
+  },
   render () {
     let component = []
-    let genSubMenu = function (ms) {
+    let genSubMenu = (ms) => {
       ms = Array.isArray(ms) ? ms : []
-      ms.map(function (m) {
-        const {title, type, name, icon, items} = m
+      ms.map((m) => {
+        let {title, type, items, icon, ...others} = m
         if (type !== 'menu') { // 如果是菜单项
-          component.push(<MenuItem name={name}>{title}</MenuItem>)
+          // console.log('others:', {...others})
+          // component.push(<MenuItem name={others.name} to={others.to} target={others.target} >{title}</MenuItem>)
+          // https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues/143,要加一层attrs
+          component.push(<MenuItem {...{attrs: others}}>{title}</MenuItem>)
         } else {
           let start = component.length
           genSubMenu(items)
@@ -31,10 +39,9 @@ export default {
         }
       })
     }
-    // console.log(this.menu)
     genSubMenu(this.menu)
     return (
-      <Menu theme="light" width="auto">
+      <Menu theme="light" width="auto" onOn-select={this.handleClickMenu}>
         {component}
       </Menu>
     )
@@ -48,9 +55,9 @@ Vue.component('Icon', Icon)
 
 </script>
 /*let genSubMenu = function (m) {
-  const {title, type, name, icon, items} = m
+  const {title, type, name, icon, items, to} = m
   if (type !== 'menu') { // 如果是菜单项
-    component.push(<MenuItem name={name}>{title}</MenuItem>)
+    component.push(<MenuItem name={name} to={to}>{title}</MenuItem>)
   } else {
     let start = component.length
     items.map(function (item) {

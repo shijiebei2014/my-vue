@@ -3,11 +3,12 @@
   <Layout>
     <Layout>
       <Sider hide-trigger :style="{background: '#fff'}">
-        <XMenu :menu='menu'/>
+        <XMenu :menu='menu'></XMenu>
       </Sider>
       <Layout :style="{padding: '0 24px 24px'}">
         <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-          Content
+          <!-- {{content}} -->
+          <router-view/>
         </Content>
       </Layout>
     </Layout>
@@ -34,8 +35,12 @@ export default {
   name: 'Main',
   data () {
     return {
-      msg: '123',
-      menu: menuData
+      menu: menuData,
+      content: 'Content 123'
+    }
+  },
+  methods: {
+    selectMenu: function (name) {
     }
   }
 }
@@ -65,3 +70,14 @@ export default {
     margin-right: 20px;
 }
 </style>
+
+<!-- <Menu active-name="1" @on-select="selectMenu">
+  <MenuItem name="3"  to="/tags">
+    <Icon type="md-heart"/>
+    用户留存
+  </MenuItem>
+  <MenuItem name="4">
+    <Icon type="md-leaf"/>
+    流失用户
+  </MenuItem>
+</Menu> -->
